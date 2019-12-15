@@ -1,24 +1,24 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Calculator',
-  data () {
+  name: "Calculator",
+  data() {
     return {
-      msg: 'Welcome to calculator app'
-    }
+      msg: "Welcome to calculator app"
+    };
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
+h1,
+h2 {
   font-weight: normal;
 }
 ul {
