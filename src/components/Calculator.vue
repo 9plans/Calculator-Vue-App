@@ -10,7 +10,7 @@ export default {
   name: 'Calculator',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to calculator app'
     }
   }
 }
