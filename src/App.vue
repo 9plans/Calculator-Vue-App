@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png" />
-    <calculator />
+    <Calculator />
   </div>
 </template>
 
 <script>
-import Calculator from "./components/Calculator.vue";
+import Calculator from "./components/Calculator";
 
 export default {
   name: "App",
