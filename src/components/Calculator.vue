@@ -39,7 +39,7 @@
           <!-- row 6 -->
           <div @click="Append('0')" class="numbers zero btn ">0</div>
           <div @click="DecimalPoint('.')" class="btn">.</div>
-          <div @click="Equal()" class="btn Operators">=</div>
+          <div @click="ComputeOperatoin()" class="btn Operators">=</div>
         </div>
       </b-col>
     </b-row>
@@ -55,7 +55,8 @@ export default {
       previousValue: "",
       operatorClicked: false,
       operatorAction: null,
-      operatorSymbol: "+"
+      operatorSymbol: "=",
+      newValueAdded: false
     };
   },
   methods: {
@@ -64,15 +65,16 @@ export default {
       this.currentValue = "";
       this.operatorClicked = false;
       this.operatorAction = null;
-      this.operatorSymbol = "+";
+      this.operatorSymbol = "=";
       this.previousValue = "";
+      this.newValueAdded = false;
     },
     Append(newValue) {
       if (this.operatorClicked) {
         this.operatorClicked = false;
         this.currentValue = "";
       }
-
+      this.newValueAdded = true;
       this.currentValue =
         this.currentValue === "0"
           ? (this.currentValue = `${this.currentValue.slice(1)}${
@@ -100,38 +102,42 @@ export default {
     // ======================= Operators========================================
     Addition() {
       this.operatorAction = (previousVal, newValue) => previousVal + newValue;
-      this.OnOperatorClick();
-      this.operatorSymbol = "+";
-      Equal();
+      this.SetOperationConstraints("+");
     },
     Subtraction() {
       this.operatorAction = (previousVal, newValue) => previousVal - newValue;
-      this.OnOperatorClick();
-      this.operatorSymbol = "-";
+      this.SetOperationConstraints("-");
     },
     Multiplication() {
       this.operatorAction = (previousVal, newValue) => previousVal * newValue;
-      this.OnOperatorClick();
-      this.operatorSymbol = "x";
+      this.SetOperationConstraints("*");
     },
     Division() {
       this.operatorAction = (previousVal, newValue) => previousVal / newValue;
-      this.OnOperatorClick();
-      this.operatorSymbol = "/";
+      this.SetOperationConstraints("/");
     },
     OnOperatorClick() {
-      this.previousValue = this.currentValue;
-      // this.currentValue = "";
       this.operatorClicked = true;
-      console.log("operator clicked");
+      //  console.log("operator clicked");
     },
-    Equal() {
-      if (this.previousValue)
-        this.currentValue = `${this.operatorAction(
-          parseFloat(this.previousValue),
-          parseFloat(this.currentValue)
-        )}`;
-      this.previousValue = "";
+    SetOperationConstraints(symbol) {
+      this.operatorSymbol = symbol;
+      this.OnOperatorClick();
+      this.ComputeOperatoin();
+    },
+    ComputeOperatoin() {
+      if (this.previousValue) {
+        if (this.newValueAdded) {
+          this.currentValue = `${this.operatorAction(
+            parseFloat(this.previousValue),
+            parseFloat(this.currentValue)
+          )}`;
+          this.operatorSymbol = "=";
+          this.newValueAdded = false;
+        }
+      }
+      this.previousValue = this.currentValue;
+      //this.currentValue = "";
     }
   }
 };
@@ -187,6 +193,8 @@ h3 {
   padding: 5px 10px;
   background-color: rgb(53, 67, 87, 0.2);
   overflow: hidden;
+  height: 50px;
+  max-height: 50px;
 }
 .Operators {
   background-color: rgb(108, 99, 255, 1);
